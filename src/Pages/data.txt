@@ -1,0 +1,40 @@
+   <button disabled={product.availableQty <= 0} onClick={() => {addToCart(
+                      slug,
+                      1,
+                      product.price,
+                      product.title,
+                      product.size,
+                      product.color
+                    );
+                  }} className="disabled:bg-pink-300 flex ml-2 md:ml-4 text-white bg-pink-500 border-0 py-2 px-2 sm:px-4md:px-6 focus:outline-none hover:bg-pink-600 rounded">Add to Cart</button>
+
+
+
+
+                   const addToCart = (itemcode, qty, price, name, size, variant) => {
+    let newCart = cart;
+    if (itemcode in cart) {
+      newCart[itemcode].qty = cart[itemcode].qty + qty;
+    }
+    else {
+      newCart[itemcode] = { qty: 1, price, name, size, variant }
+    }
+    setCart(newCart)
+    saveCart(newCart)
+  }
+
+
+
+
+
+
+    const saveCart = (myCart) => {
+    localStorage.setItem('cart', JSON.stringify(myCart))
+    let subt = 0
+    let keys = Object.keys(myCart)
+    for (let i = 0; i < keys.length; i++) {
+      subt += myCart[keys[i]].price * myCart[keys[i]].qty
+    }
+    setSubtotal(subt)
+    // console.log(cart);
+  }
