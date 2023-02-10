@@ -11,7 +11,7 @@
 
 
 
-                   const addToCart = (itemcode, qty, price, name, size, variant) => {
+const addToCart = (itemcode, qty, price, name, size, variant) => {
     let newCart = cart;
     if (itemcode in cart) {
       newCart[itemcode].qty = cart[itemcode].qty + qty;

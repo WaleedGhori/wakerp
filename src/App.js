@@ -38,7 +38,6 @@ function App() {
   }
   return (
     <>
-    <CartProvider>
     <ProductState>
       <Router>
         <Sidebar>
@@ -50,7 +49,6 @@ function App() {
         </Sidebar>
       </Router>
       </ProductState>
-      </CartProvider>
     </>
   );
 }

@@ -1,5 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ProductContext from "./ProductContext";
+
+
+
+//***********Here we run the loop on getDefaultcart************//
+
 
 const ProductState = (props) => {
   const intialProps = [];
@@ -77,9 +82,47 @@ const ProductState = (props) => {
     setCreateInvoice(createInvoice.concat(cusInv));
   };
 
+
+//************* This our add to cart product section ***********//
+// HERE WE FETCH THE DATA 
+// const fetchfunction = async()=>{
+//   let a = await fetch(`http://localhost:5000/api/product/getproduct`)
+//   let res = await a.json();
+//   const getDefaultCart = () => {
+//     let cart = {};
+//     for (let i = 1; i < res.length + 1; i++) {
+//       cart[i] = 0;
+//     }
+//     return cart;
+//   };
+//   // console.log("This is a response",res);
+// }
+
+// useEffect(() => {
+//   fetchfunction();   
+// }, [])
+
+// // const [product , setProduct] = useState()
+// //********Here we fetch the data from api************//
+   
+//     const [cartitem, setCartItem] = useState(getDefaultCart())
+
+//     const addToCart = (itemId) => {
+//         setCartItem((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+//       };
+
+    const  contextValue = {
+        // cartitem,
+        // addToCart,
+        addProduct ,
+        // createCustomerInvocie
+    }
+
+//    console.log(cartitem);
+
   return (
     // <ProductContext.Provider value={{state , update}}>
-    <ProductContext.Provider value={{ addProduct ,createCustomerInvocie }}>
+    <ProductContext.Provider value={contextValue}>
       {props.children}
     </ProductContext.Provider>
   );
