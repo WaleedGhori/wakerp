@@ -3,84 +3,80 @@ import ProductContext from '../context/product/ProductContext'
 
 
 const CreateInvoice = (props) => {
-  // const context = useContext(ProductContext)
-  // const { addToCart } = context;
 
 
-  // const addToCart = (p_Id, P_sale,p_company,p_exsale,p_name,p_price ,cus_name,pro_quantity) => {
-  //   let newCart = cart;
-  //   if (cus_name in cart) {
-  //     newCart[cus_name].pro_quantity = cart[cus_name].pro_quantity + pro_quantity;
-  //   }
-  //   else {
-  //     newCart[cus_name] = {p_Id, P_sale,p_company,p_exsale,p_name,p_price ,cus_name,pro_quantity:1}
-  //   }
-  //   setCart(newCart)
-  //   saveCart(newCart)
-  // }
-
-  // ******* This is section where we add the product in localstorage and get from api coressponding to product id
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   // first WE fetch the product according to product id
-  //   // let id = p_Id;
-  //   // let a = await fetch(`http://localhost:5000/api/product/getproduct/${id}`)
-  //   // let res = await a.json();
-  //   // console.log(res);
-  //   // setProducts([...products, res]);
-  //   // localStorage.setItem("products", JSON.stringify([...products, res]));
-  //   localStorage.setItem("product" , product)
-  //   alert("Invoice")
-  // }
-
-//**** This section is our starting section of code ***//
+  //**** This section is our starting section of code ***//
   const [cus_name, setCusName] = useState("")
   const [p_Id, setProductId] = useState("")
   const [p_name, setProductName] = useState("")
   const [pro_quantity, setProductQuantity] = useState('')
   const [product, setProduct] = useState([])
+  const [products, setProducts] = useState([])
   const [subtotal, setSubtotal] = useState(0);
 
-//***********/This is a handle change function which help us to take the value from/*********//
-const handleChange = async (e) => {
-  if (e.target.name ===  "cus_name") {
-    setCusName(e.target.value)
+  //***********/This is a handle change function which help us to take the value from/*********//
+  const handleChange = async (e) => {
+    if (e.target.name === "cus_name") {
+      setCusName(e.target.value)
+    }
+    else if (e.target.name === "p_Id") {
+      setProductId(e.target.value)
+    }
+    else if (e.target.name === "p_name") {
+      setProductName(e.target.value)
+    }
+    else if (e.target.name === "pro_quantity") {
+      setProductQuantity(e.target.value)
+    }
+    // setInvoice({ ...invoice,[e.target.value]:e.target.name })
   }
-  else if (e.target.name === "p_Id") {
-    setProductId(e.target.value)
-  }
-  else if (e.target.name === "p_name") {
-    setProductName(e.target.value)
-  }
-  else if (e.target.name ==="pro_quantity") {
-    setProductQuantity(e.target.value)
-  }
-  // setInvoice({ ...invoice,[e.target.value]:e.target.name })
-}
 
-  const [products, setProducts] = useState(
-    JSON.parse(localStorage.getItem("products")) || []
-  );
-// Here we fetch the function 
-  const fetchfunction = async()=>{
+  // const [products, setProducts] = useState(
+  //   JSON.parse(localStorage.getItem("products")) || []
+  // );
+  // Here we fetch the function 
+  const fetchfunction = async () => {
     let id = p_Id
     let a = await fetch(`http://localhost:5000/api/product/getproduct/${id}`)
     let res = await a.json();
     setProduct(res)
-    console.log("This is a response",res);
+    console.log("This is a response", res);
   }
 
   useEffect(() => {
-    fetchfunction();   
+    fetchfunction();
+    console.log("p", product);
+    console.log("ps", products);
   }, [p_Id])
 
-// Here we set the product and all user input data into localstorage
-  const addProductToLocalStorage = (P_sale, p_company, p_name , p_exsale, p_price,p_quantity , cus_name , p_Id , pro_quantity) => {
+  useEffect(() => {
+    const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
+    setProducts(storedProducts);
+  }, []);
+
+  // Here we set the product and all user input data into localstorage
+  const addProductToLocalStorage = (P_sale, p_company, p_name, p_exsale, p_price, p_quantity, cus_name, p_Id, pro_quantity) => {
     const existingProducts = JSON.parse(localStorage.getItem('products')) || [];
-    const newProduct = { P_sale, p_company, p_name , p_exsale, p_price,p_quantity , cus_name , p_Id , pro_quantity};
+    const newProduct = { P_sale, p_company, p_name, p_exsale, p_price, p_quantity, cus_name, p_Id, pro_quantity };
     localStorage.setItem('products', JSON.stringify([...existingProducts, newProduct]));
-  };  
+  };
+
+  const total = () => {
+    let t = JSON.parse(localStorage.getItem("products"));
+    let result = 0;
+    for (let i = 0; i < t.length; i++) {
+      let obj = t[i];
+      let pro_quantity = parseInt(obj.pro_quantity);
+      let p_price = parseInt(obj.p_price);
+      result += pro_quantity * p_price;
+    }
+    console.log("Iam  a t", t);
+    console.log(result);
+    setSubtotal(result)
+  }
+  useEffect(() => {
+    total()
+  }, [])
 
   return (
     <div className='container'>
@@ -107,9 +103,9 @@ const handleChange = async (e) => {
             <div className="mb-3 flex flex-col w-3/5 m-auto">
               <label for="product name" className="form-label">Product Qunatity</label>
               <input type="number" className="form-control border-2 border-slate-200 rounded mt-2" id="productname" value={pro_quantity} name="pro_quantity" onChange={handleChange} />
-            </div>  
+            </div>
             <div className="mb-3 flex flex-col w-1/3 m-auto">
-              <button type="submit" className="btn addcolor px-2 py-1 text-white rounded mt-2" onClick={() => addProductToLocalStorage(product.P_sale, product.p_company, product.p_name , product.p_exsale, product.p_price,product.p_quantity , cus_name , p_Id , pro_quantity )} >Add Product</button>
+              <button type="submit" className="btn addcolor px-2 py-1 text-white rounded mt-2" onClick={() => addProductToLocalStorage(product.P_sale, product.p_company, product.p_name, product.p_exsale, product.p_price, product.p_quantity, cus_name, p_Id, pro_quantity)} >Add Product</button>
             </div>
           </div>
         </div>
@@ -157,22 +153,25 @@ const handleChange = async (e) => {
                 </td>
               </tr>
               {products.map((product, index) => (
-                 <tr key={index} className="bg-gray-100 text-center border-b text-sm text-gray-600">         
-                 <td className="p-2 border-r">{product.p_Id}</td>
-                 <td className="p-2 border-r">{product.p_name}</td>
-                 <td className="p-2 border-r">{product.p_company}</td>
-                 <td className="p-2 border-r">{product.p_price}</td>
-                 <td className="p-2 border-r">{product.pro_quantity}</td>
-                 <td className="p-2 border-r">{product.P_sale}</td>
-                 <td className="p-2 border-r">{product.p_exsale}</td>
-                 <td>
-                   <a href="#" className="bg-blue-500 p-2 text-white hover:shadow-lg text-xs font-thin">Edit</a>
-                   <a href="#" className="bg-red-500 p-2 text-white hover:shadow-lg text-xs font-thin">Remove</a>
-                   </td>
-                  </tr>
+                <tr key={index} className="bg-gray-100 text-center border-b text-sm text-gray-600">
+                  <td className="p-2 border-r">{product.p_Id}</td>
+                  <td className="p-2 border-r">{product.p_name}</td>
+                  <td className="p-2 border-r">{product.p_company}</td>
+                  <td className="p-2 border-r">{product.p_price}</td>
+                  <td className="p-2 border-r">{product.pro_quantity}</td>
+                  <td className="p-2 border-r">{product.P_sale}</td>
+                  <td className="p-2 border-r">{product.p_exsale}</td>
+                  <td>
+                    <a href="#" className="bg-blue-500 p-2 text-white hover:shadow-lg text-xs font-thin">Edit</a>
+                    <a href="#" className="bg-red-500 p-2 text-white hover:shadow-lg text-xs font-thin">Remove</a>
+                  </td>
+                </tr>
               ))}
             </tbody>
           </table>
+          <div>
+            {subtotal}
+          </div>
         </div>
       </div>
 
@@ -267,3 +266,40 @@ export default CreateInvoice
 //           <li key={product.productId}>
 //             {product.customerName} - {product.productId} - {product.productQuantity}
 //             <
+
+
+
+
+
+
+
+ // const context = useContext(ProductContext)
+  // const { addToCart } = context;
+
+
+  // const addToCart = (p_Id, P_sale,p_company,p_exsale,p_name,p_price ,cus_name,pro_quantity) => {
+  //   let newCart = cart;
+  //   if (cus_name in cart) {
+  //     newCart[cus_name].pro_quantity = cart[cus_name].pro_quantity + pro_quantity;
+  //   }
+  //   else {
+  //     newCart[cus_name] = {p_Id, P_sale,p_company,p_exsale,p_name,p_price ,cus_name,pro_quantity:1}
+  //   }
+  //   setCart(newCart)
+  //   saveCart(newCart)
+  // }
+
+  // ******* This is section where we add the product in localstorage and get from api coressponding to product id
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   // first WE fetch the product according to product id
+  //   // let id = p_Id;
+  //   // let a = await fetch(`http://localhost:5000/api/product/getproduct/${id}`)
+  //   // let res = await a.json();
+  //   // console.log(res);
+  //   // setProducts([...products, res]);
+  //   // localStorage.setItem("products", JSON.stringify([...products, res]));
+  //   localStorage.setItem("product" , product)
+  //   alert("Invoice")
+  // }

@@ -38,3 +38,127 @@ const addToCart = (itemcode, qty, price, name, size, variant) => {
     setSubtotal(subt)
     // console.log(cart);
   }
+
+
+
+  // const context = useContext(ProductContext)
+  // const { addToCart } = context;
+
+
+  // const addToCart = (p_Id, P_sale,p_company,p_exsale,p_name,p_price ,cus_name,pro_quantity) => {
+  //   let newCart = cart;
+  //   if (cus_name in cart) {
+  //     newCart[cus_name].pro_quantity = cart[cus_name].pro_quantity + pro_quantity;
+  //   }
+  //   else {
+  //     newCart[cus_name] = {p_Id, P_sale,p_company,p_exsale,p_name,p_price ,cus_name,pro_quantity:1}
+  //   }
+  //   setCart(newCart)
+  //   saveCart(newCart)
+  // }
+
+  // ******* This is section where we add the product in localstorage and get from api coressponding to product id
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   // first WE fetch the product according to product id
+  //   // let id = p_Id;
+  //   // let a = await fetch(`http://localhost:5000/api/product/getproduct/${id}`)
+  //   // let res = await a.json();
+  //   // console.log(res);
+  //   // setProducts([...products, res]);
+  //   // localStorage.setItem("products", JSON.stringify([...products, res]));
+  //   localStorage.setItem("product" , product)
+  //   alert("Invoice")
+  // }
+
+
+
+
+
+
+// import React, { useState, useEffect } from 'react';
+
+// const App = () => {
+//   const [products, setProducts] = useState([]);
+//   const [customerName, setCustomerName] = useState('');
+//   const [productId, setProductId] = useState('');
+//   const [productQuantity, setProductQuantity] = useState('');
+
+//   useEffect(() => {
+//     const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
+//     setProducts(storedProducts);
+//   }, []);
+
+//   useEffect(() => {
+//     fetch(`https://api.example.com/products/${productId}`)
+//       .then(res => res.json())
+//       .then(data => setProducts([data]));
+//   }, [productId]);
+
+//   const addProductToLocalStorage = () => {
+//     const existingProducts = JSON.parse(localStorage.getItem('products')) || [];
+//     const newProduct = { customerName, productId, productQuantity };
+//     localStorage.setItem('products', JSON.stringify([...existingProducts, newProduct]));
+//     setCustomerName('');
+//     setProductId('');
+//     setProductQuantity('');
+//   };
+
+//   const deleteProductFromLocalStorage = productIdToDelete => {
+//     const updatedProducts = products.filter(
+//       product => product.productId !== productIdToDelete
+//     );
+//     localStorage.setItem('products', JSON.stringify(updatedProducts));
+//     setProducts(updatedProducts);
+//   };
+
+//   const updateProductInLocalStorage = (productIdToUpdate, updatedProduct) => {
+//     const updatedProducts = products.map(product => {
+//       if (product.productId === productIdToUpdate) {
+//         return { ...product, ...updatedProduct };
+//       }
+//       return product;
+//     });
+//     localStorage.setItem('products', JSON.stringify(updatedProducts));
+//     setProducts(updatedProducts);
+//   };
+
+//   return (
+//     <div>
+//       <h1>Products</h1>
+//       <form onSubmit={addProductToLocalStorage}>
+//         <label>
+//           Customer Name:
+//           <input
+//             type="text"
+//             value={customerName}
+//             onChange={e => setCustomerName(e.target.value)}
+//           />
+//         </label>
+//         <br />
+//         <label>
+//           Product ID:
+//           <input
+//             type="text"
+//             value={productId}
+//             onChange={e => setProductId(e.target.value)}
+//           />
+//         </label>
+//         <br />
+//         <label>
+//           Product Quantity:
+//           <input
+//             type="text"
+//             value={productQuantity}
+//             onChange={e => setProductQuantity(e.target.value)}
+//           />
+//         </label>
+//         <br />
+//         <button type="submit">Add Product to Local Storage</button>
+//       </form>
+//       <ul>
+//         {products.map(product => (
+//           <li key={product.productId}>
+//             {product.customerName} - {product.productId} - {product.productQuantity}
+//             <
