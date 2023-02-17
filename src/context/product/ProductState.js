@@ -20,6 +20,7 @@ const ProductState = (props) => {
     P_sale,
     p_exsale
   ) => {
+    // console.log("Iam a add",p_name);
     const response = await fetch(
       `http://localhost:5000/api/product/addproduct`,
       {
@@ -42,20 +43,12 @@ const ProductState = (props) => {
     );
     const prod = await response.json();
     setProds(prods.concat(prod));
+  
   };
 
   // this is our add customer state
-  const createCustomerInvocie = async (
-    c_Id,
-    cus_name,
-    p_Id,
-    p_name,
-    pro_quantity,
-    t_ammount,
-    a_recived,
-    bal_ammount,
-    discount
-  ) => {
+  const createCustomerInvocie = async (cus_name, products,subtotal, totalquant ,finalpay,ammountpay,balanceammount,totalsale, totalexsale,returnammount) => {
+    console.log(cus_name);
     const response = await fetch(
       `http://localhost:5000/api/customer/createinvocie`,
       {
@@ -66,15 +59,7 @@ const ProductState = (props) => {
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6eyJpZCI6IjYzNzI5NDVmOWE5ZDdmZjRlNzFkYzAwZCJ9LCJpYXQiOjE2Njg1Mzg3MzV9.dInE217SveqFq0457SHJnBzhhwvJLouM-Uxtex3ChPk",
         },
         body: JSON.stringify({
-          c_Id,
-          cus_name,
-          p_Id,
-          p_name,
-          pro_quantity,
-          t_ammount,
-          a_recived,
-          bal_ammount,
-          discount
+          cus_name, products,subtotal, totalquant ,finalpay,ammountpay,balanceammount,totalsale, totalexsale,returnammount
         }),
       }
     );
@@ -115,7 +100,7 @@ const ProductState = (props) => {
         // cartitem,
         // addToCart,
         addProduct ,
-        // createCustomerInvocie
+        createCustomerInvocie
     }
 
 //    console.log(cartitem);

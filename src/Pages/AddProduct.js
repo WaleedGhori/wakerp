@@ -14,6 +14,7 @@ const handleClick = (e)=>{
   addProduct(product.p_name,product.p_category,product.p_company,product.p_quantity,product.p_price,product.P_sale,product.p_exsale);
   setproduct({p_name:"",p_category:"",p_company:"",p_quantity:"",p_price:"",P_sale:"",p_exsale:"" })
 }
+
 const onChange = (e)=>{
   setproduct({...product,[e.target.name]:e.target.value})
 }

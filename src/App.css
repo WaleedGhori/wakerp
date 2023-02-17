@@ -9,7 +9,7 @@ App.css
 .sidebar{
     background: rgb(16 17 24);
     color: white;
-    min-height: 100vh;
+    height: 100vh;
 }
 a{
   text-decoration: none;
@@ -54,12 +54,10 @@ a{
 .search-icon{
   font-weight: bold;
 }
-
 .route_text{
   white-space: nowrap;
   font-size: 15px;
 }
-
 .main-container{
   display: flex;
 }
@@ -82,4 +80,22 @@ main{
 }
 .addcolor:hover{
   background: rgb(34, 38, 54);
+}
+
+.menu{
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  color: white;
+  padding: 10px 10px;
+  border-right: 4px solid transparent;
+  transition: 0.2s cubic-bezier(0.6 , -0.28 , 0.735 , 0.045);
+}
+.menu_items{
+  display: flex;
+  gap:10px;
+}
+.menu_container .link{
+  padding-left: 20px;
+  border-bottom: white 0.5px solid;
 }

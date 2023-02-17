@@ -2,8 +2,15 @@ import React, { useContext, useState, useEffect } from "react";
 import ProductContext from "../context/product/ProductContext";
 
 const CreateInvoice = () => {
+  
+  // This is a context of create Invoice
+  // const context = useContext(ProductContext)
+  // const {createCustomerInvocie} = context;
+  const [createInvoice, setCreateInvoice] = useState({});
+  
+  
   //**** This section is our starting section of code ***//
-  const [cus_name, setCusName] = useState("");
+  const [cus_name, setCusName] = useState(localStorage.getItem("cusname"));
   const [p_Id, setProductId] = useState("");
   const [p_name, setProductName] = useState("");
   const [pro_quantity, setProductQuantity] = useState("");
@@ -17,7 +24,32 @@ const CreateInvoice = () => {
   const [returnammount, setReturnAmmount] = useState();
   const [finalpay, setFinalPay] = useState();
   const [balanceammount, setBalanceAmmount] = useState(0);
+  
+  // const [invoice, setInvoice] = useState({cus_name:localStorage.getItem("cusname"),p_Id:"",products:"", pro_quantity:"",finalpay:"",ammountpay:0,balanceammount:"", totalsale:"",totalexsale:"", returnammount:0});
 
+const handleInvocie = async() =>{
+  // createCustomerInvocie({cus_name:cus_name, products:products,subtotal:subtotal, totalquant:totalquant ,finalpay:finalpay,ammountpay:ammountpay, balanceammount:balanceammount,totalsale:totalsale, totalexsale:totalexsale, returnammount:returnammount,  })
+  
+  const  data  ={cus_name, products,subtotal, totalquant ,totalsale, totalexsale,ammountpay, returnammount,finalpay, balanceammount}
+  const response = await fetch(
+    `http://localhost:5000/api/customer/createinvocie`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6eyJpZCI6IjYzNzI5NDVmOWE5ZDdmZjRlNzFkYzAwZCJ9LCJpYXQiOjE2Njg1Mzg3MzV9.dInE217SveqFq0457SHJnBzhhwvJLouM-Uxtex3ChPk",
+      },
+      body: JSON.stringify(data),
+    }
+  );
+  const cusInv = await response.json();
+  setCreateInvoice(cusInv);
+  alert("Invoice Created successfully")
+  localStorage.clear();
+  window.location.reload(true); 
+}
+   
 
   //***********/This is a handle change function which help us to take the value from/*********//
   const handleChange = async (e) => {
@@ -34,30 +66,29 @@ const CreateInvoice = () => {
     } else if (e.target.name === "returnAmmount") {
       setReturnAmmount(e.target.value)
     }
-    // setInvoice({ ...invoice,[e.target.value]:e.target.name })
+    // setInvoice({...invoice,[e.target.name]:e.target.value })
   };
 
   // const [products, setProducts] = useState(
   //   JSON.parse(localStorage.getItem("products")) || []
-  // );
+  // )
+
   // Here we fetch the function
   const fetchfunction = async () => {
     let id = p_Id;
     let a = await fetch(`http://localhost:5000/api/product/getproduct/${id}`);
     let res = await a.json();
     setProduct(res);
-    console.log("This is a response", res);
   };
 
   useEffect(() => {
     fetchfunction();
-    console.log("p", product);
-    console.log("ps", products);
   }, [p_Id]);
 
   useEffect(() => {
     const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
     setProducts(storedProducts);
+    console.log("thnnmb",products);
   }, []);
 
   // Here we set the product and all user input data into localstorage
@@ -72,7 +103,7 @@ const CreateInvoice = () => {
     p_Id,
     pro_quantity
   ) => {
-    const existingProducts = JSON.parse(localStorage.getItem("products")) || [];
+   const existingProducts = JSON.parse(localStorage.getItem("products")) || [];
     const newProduct = {
       P_sale,
       p_company,
@@ -88,6 +119,7 @@ const CreateInvoice = () => {
       "products",
       JSON.stringify([...existingProducts, newProduct])
     );
+    setCusName(localStorage.setItem("cusname", cus_name))
   };
 
   const total = () => {
@@ -183,8 +215,8 @@ const CreateInvoice = () => {
     totalQuantity();
     totalDiscount();
     totalExDiscount();
-    calculation()
-  }, [finalpay]);
+    calculation();
+  }, [finalpay ,ammountpay]);
 
 
   //  This is a section where we are doing all calculation about product 
@@ -196,10 +228,15 @@ const CreateInvoice = () => {
      let finalTotal = subtotal - total
      var d = parseFloat(finalTotal).toFixed(3)
     setFinalPay(d)
+    console.log("This is a balance ammount d",d)
     let balAmmount = finalpay - ammountpay
-    setBalanceAmmount(balAmmount) 
+    console.log("This is a balance ammount",balAmmount);
+    if (ammountpay) {
+      setBalanceAmmount(balAmmount) 
+    } else {
+      setBalanceAmmount(0);
+    }
    }
-    
 
   return (
     <div className="container">
@@ -399,15 +436,26 @@ const CreateInvoice = () => {
             </div>
             <div className="p-2 text-base font-semibold mx-2">
               <label>Total Ammount after Discount: </label>
-              <span className="text-blue-900">{finalpay}</span>
+              <span className="text-blue-900">{Math.ceil(finalpay)}</span>
             </div>
           </div>
 
           {/* This is payment sectiom div */}
-          <div className="w-1/2 my-2 p-2 flex flex-col bg-gray-50">
-            <div className="p-2 text-base font-semibold mx-2">
+          <div className="w-1/2 my-2 p-2 flex bg-gray-50">
+            <div className="w-1/3">
+              <div className="p-2 text-base font-semibold mx-2">
               <label>Ammount Pay: </label>
-              <input
+            </div>
+            <div className="p-2 text-base font-semibold mx-2">
+            <label>{finalpay<=ammountpay?"Balance Ammount: ":"Credit Ammount: "} </label>
+             
+            </div>
+            <div className="p-2 text-base font-semibold mx-2">
+            <label>Return Ammount: </label>
+            </div>
+            </div>
+            <div className="w-1/2">
+            <input
                 type="number"
                 className="form-control border-2 border-slate-200 rounded mt-2"
                 id="productname"
@@ -415,18 +463,12 @@ const CreateInvoice = () => {
                 name="ammountPay"
                 onChange={handleChange}
               />
-            </div>
-            <div className="p-2 text-base font-semibold mx-2">
-            <label>Balance Ammount: </label>
-              <input
+             <input
                 type="number"
                 className="form-control border-2 border-slate-200 rounded mt-2"
                 id="productname" readOnly placeholder={Math.ceil(balanceammount)}
               />
-            </div>
-            <div className="p-2 text-base font-semibold mx-2">
-            <label>Return Ammount: </label>
-              <input
+               <input
                 type="number"
                 className="form-control border-2 border-slate-200 rounded mt-2"
                 id="productname"
@@ -434,14 +476,16 @@ const CreateInvoice = () => {
                 name="returnAmmount"
                 onChange={handleChange}
               />
-            </div>
-            <div className="mx-4">
-            <button
+            <div>
+              <button
                 type="submit"
-                className="btn addcolor px-2 py-1 w-1/2 text-white rounded mt-2">
+                onClick={handleInvocie}
+                className="btn addcolor px-2 py-1 w-2/3 text-white rounded mt-2">
                 Pay Now!
-              </button>
+                </button>
             </div>
+            </div>
+
           </div>
         </div>
       </div>
