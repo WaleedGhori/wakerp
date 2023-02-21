@@ -5,6 +5,8 @@ import { FaAngleDown, FaArrowDown, FaProductHunt } from "react-icons/fa";
 import { FaFileInvoice } from "react-icons/fa";
 import {AiOutlinePlusCircle} from "react-icons/ai"
 import {RxUpdate} from "react-icons/rx"
+import {CiViewList} from "react-icons/ci"
+import {MdDelete} from  "react-icons/md"
 import { TbHeartRateMonitor } from "react-icons/tb";
 import { BiSearch } from "react-icons/bi";
 import { FaBars } from "react-icons/fa";
@@ -29,6 +31,11 @@ const routes = [
         icon: <FaProductHunt />,
         subRoutes: [
             {
+                path: "/product/getproduct",
+                name: "View Product",
+                icon: <CiViewList/>
+            },
+            {
                 path: "/product/addproduct",
                 name: "Add Product",
                 icon: <AiOutlinePlusCircle />
@@ -37,6 +44,11 @@ const routes = [
                 path: "/product/updateproduct",
                 name: "Update Product",
                 icon: <RxUpdate/>
+            },
+            {
+                path: "/product/deleteproduct",
+                name: "Delete Product",
+                icon: <MdDelete/>
             }
         ]
     },

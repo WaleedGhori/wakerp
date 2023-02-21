@@ -1,12 +1,14 @@
   import './App.css';
   import {BrowserRouter as Router , Routes , Route} from 'react-router-dom';
   import Dashboard from './Pages/Dashboard';
-  import Sidebar from './components/Sidebar';
+  import Sidebar from './Components/Sidebar';
   import AddProduct from './Pages/AddProduct';
   import UpdateProduct from './Pages/UpdateProduct';
   import CreateInvoice from './Pages/CreateInvoice';
   import ProductState from './context/product/ProductState';
   import { useState, useEffect} from 'react';
+  import ViewProduct from './Pages/ViewProduct';
+  import DeleteProduct from './Pages/DeleteProduct';
   import { CartProvider } from "react-use-cart";
 
   function App() {
@@ -60,6 +62,8 @@
             <Route exact path='/' element={<Dashboard/>}/>
             <Route exact path='/product/addproduct' element={<AddProduct/>}/>
             <Route exact path='/product/updateproduct' element={<UpdateProduct/>}/>
+            <Route exact path='/product/getproduct' element={<ViewProduct/>}/>
+            <Route exact path='/product/deleteproduct' element={<DeleteProduct/>}/>
             <Route exact path='/createinvoice' element={<CreateInvoice saveCart={saveCart} addToCart={addToCart} cart={cart}/>}/>
           </Routes>
           </Sidebar>
