@@ -9,7 +9,7 @@ App.css
 .sidebar{
     background: rgb(16 17 24);
     color: white;
-    height: 100vh;
+    min-height: 100vh;
 }
 a{
   text-decoration: none;

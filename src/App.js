@@ -3,6 +3,7 @@
   import Dashboard from './Pages/Dashboard';
   import Sidebar from './components/Sidebar';
   import AddProduct from './Pages/AddProduct';
+  import UpdateProduct from './Pages/UpdateProduct';
   import CreateInvoice from './Pages/CreateInvoice';
   import ProductState from './context/product/ProductState';
   import { useState, useEffect} from 'react';
@@ -58,6 +59,7 @@
           <Routes>
             <Route exact path='/' element={<Dashboard/>}/>
             <Route exact path='/product/addproduct' element={<AddProduct/>}/>
+            <Route exact path='/product/updateproduct' element={<UpdateProduct/>}/>
             <Route exact path='/createinvoice' element={<CreateInvoice saveCart={saveCart} addToCart={addToCart} cart={cart}/>}/>
           </Routes>
           </Sidebar>

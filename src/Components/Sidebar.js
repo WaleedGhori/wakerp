@@ -3,6 +3,8 @@ import React from 'react'
 
 import { FaAngleDown, FaArrowDown, FaProductHunt } from "react-icons/fa";
 import { FaFileInvoice } from "react-icons/fa";
+import {AiOutlinePlusCircle} from "react-icons/ai"
+import {RxUpdate} from "react-icons/rx"
 import { TbHeartRateMonitor } from "react-icons/tb";
 import { BiSearch } from "react-icons/bi";
 import { FaBars } from "react-icons/fa";
@@ -29,12 +31,12 @@ const routes = [
             {
                 path: "/product/addproduct",
                 name: "Add Product",
-                icon: <GrDocumentUpdate />
+                icon: <AiOutlinePlusCircle />
             },
             {
-                path: "/addproduct/updateproduct",
+                path: "/product/updateproduct",
                 name: "Update Product",
-                icon: <GrDocumentUpdate />
+                icon: <RxUpdate/>
             }
         ]
     },

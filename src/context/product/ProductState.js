@@ -46,6 +46,45 @@ const ProductState = (props) => {
   
   };
 
+
+  // this is our updateProduct function
+  const updateProduct = async (
+    p_Id,
+    p_name,
+    p_category,
+    p_company,
+    p_quantity,
+    p_price,
+    P_sale,
+    p_exsale
+  ) => {
+    // console.log("Iam a add",p_name);
+    const response = await fetch(
+      `http://localhost:5000/api/product/updateproduct/${p_Id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6eyJpZCI6IjYzNzI5NDVmOWE5ZDdmZjRlNzFkYzAwZCJ9LCJpYXQiOjE2Njg1Mzg3MzV9.dInE217SveqFq0457SHJnBzhhwvJLouM-Uxtex3ChPk",
+        },
+        body: JSON.stringify({
+          p_Id,
+          p_name,
+          p_category,
+          p_company,
+          p_quantity,
+          p_price,
+          P_sale,
+          p_exsale,
+        }),
+      }
+    );
+    const prod = await response.json();
+    setProds(prods.concat(prod));
+  
+  };
+
   // this is our add customer state
   const createCustomerInvocie = async (cus_name, products,subtotal, totalquant ,finalpay,ammountpay,balanceammount,totalsale, totalexsale,returnammount) => {
     console.log(cus_name);
@@ -100,6 +139,7 @@ const ProductState = (props) => {
         // cartitem,
         // addToCart,
         addProduct ,
+        updateProduct,
         createCustomerInvocie
     }
 
