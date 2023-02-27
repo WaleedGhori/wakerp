@@ -85,9 +85,26 @@ const ProductState = (props) => {
   
   };
 
+  const deleteProduct = async (p_Id) => {
+    // console.log("Iam a add",p_name);
+    const response = await fetch(
+      `http://localhost:5000/api/product/deleteproduct/${p_Id}`,
+      {
+        method: "Delete",
+        headers: {
+          "auth-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6eyJpZCI6IjYzNzI5NDVmOWE5ZDdmZjRlNzFkYzAwZCJ9LCJpYXQiOjE2Njg1Mzg3MzV9.dInE217SveqFq0457SHJnBzhhwvJLouM-Uxtex3ChPk",
+        },
+        body: JSON.stringify({
+          p_Id,
+        }),
+      }
+    );
+    const prod = await response.json();
+  };
+
   // this is our add customer state
   const createCustomerInvocie = async (cus_name, products,subtotal, totalquant ,finalpay,ammountpay,balanceammount,totalsale, totalexsale,returnammount) => {
-    console.log(cus_name);
     const response = await fetch(
       `http://localhost:5000/api/customer/createinvocie`,
       {
@@ -140,6 +157,7 @@ const ProductState = (props) => {
         // addToCart,
         addProduct ,
         updateProduct,
+        deleteProduct,
         createCustomerInvocie
     }
 

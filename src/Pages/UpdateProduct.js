@@ -12,7 +12,7 @@ const handleClick = (e)=>{
   e.preventDefault();
   updateProduct(product.p_Id,product.p_name,product.p_category,product.p_company,product.p_quantity,product.p_price,product.P_sale,product.p_exsale);
   setproduct({p_Id:"", p_name:"",p_category:"",p_company:"",p_quantity:"",p_price:"",P_sale:"",p_exsale:"" }) 
-  alert("Product Updated Successfully")
+  alert("Product Updated Successfully...")
 }
 
 const onChange = (e)=>{
