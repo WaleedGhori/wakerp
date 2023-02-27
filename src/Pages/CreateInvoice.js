@@ -1,8 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import ProductContext from "../context/product/ProductContext";
 
-const CreateInvoice = ({ addToCart, cart, subtotal1, totalQuantity1, totalDiscount1, totalExDiscount1, removeToCart }) => {
+const CreateInvoice = ({ addToCart, cart, subtotal1, totalQuantity1, totalDiscount1, totalExDiscount1, removeToCart, editCart }) => {
 
   // This is a context of create Invoice
   // const context = useContext(ProductContext)
@@ -23,7 +21,6 @@ const CreateInvoice = ({ addToCart, cart, subtotal1, totalQuantity1, totalDiscou
   const [balanceammount, setBalanceAmmount] = useState(0);
 
   // const [invoice, setInvoice] = useState({cus_name:localStorage.getItem("cusname"),p_Id:"",products:"", pro_quantity:"",finalpay:"",ammountpay:0,balanceammount:"", totalsale:"",totalexsale:"", returnammount:0});
-  let { userId } = useParams();
   const handleInvocie = async () => {
     // createCustomerInvocie({cus_name:cus_name, products:products,subtotal:subtotal, totalquant:totalquant ,finalpay:finalpay,ammountpay:ammountpay, balanceammount:balanceammount,totalsale:totalsale, totalexsale:totalexsale, returnammount:returnammount,  })
     let subtotal = subtotal1;
@@ -155,25 +152,23 @@ const CreateInvoice = ({ addToCart, cart, subtotal1, totalQuantity1, totalDiscou
   return (
     <div className="container">
       <h2 className="text-4xl mt-2 mb-4">Create a Invoice</h2>
-      <div>
-        <div className="mb-3 flex flex-col">
-          <label htmlFor="product name" className="form-label">
-            Customer Name
-          </label>
-          <input
-            type="text"
-            className="form-control border-2 border-slate-200 rounded mt-2"
-            id="productname"
-            value={cus_name}
-            name="cus_name"
-            onChange={handleChange}
-          />
-        </div>
-      </div>
       <form>
         <div className="flex">
-          <div className="flex w-1/2">
-            <div className="mb-3 flex flex-col w-1/3 m-auto">
+          <div className="flex w-1/2 p-2">
+          <div className="mb-3 flex flex-col w-1/2 mx-1">
+              <label htmlFor="product name" className="form-label">
+                Customer Name
+              </label>
+              <input
+                type="text"
+                className="form-control border-2 border-slate-200 rounded mt-2"
+                id="productname"
+                value={cus_name}
+                name="cus_name"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3 flex flex-col w-1/2 mx-1">
               <label htmlFor="product name" className="form-label">
                 Product ID
               </label>
@@ -186,22 +181,9 @@ const CreateInvoice = ({ addToCart, cart, subtotal1, totalQuantity1, totalDiscou
                 onChange={handleChange}
               />
             </div>
-            <div className="mb-3 flex flex-col w-3/5 m-auto">
-              <label htmlFor="productcategory" className="form-label">
-                Product Name
-              </label>
-              <input
-                type="text"
-                className="form-control border-2 border-slate-200 rounded mt-2"
-                id="productcategory"
-                value={p_name}
-                name="p_name"
-                onChange={handleChange}
-              />
-            </div>
           </div>
-          <div className="flex w-1/2">
-            <div className="mb-3 flex flex-col w-3/5 m-auto">
+          <div className="flex w-1/2 p-2">
+            <div className="mb-3 flex flex-col w-1/2 mx-1">
               <label htmlFor="product name" className="form-label">
                 Product Qunatity
               </label>
@@ -214,7 +196,7 @@ const CreateInvoice = ({ addToCart, cart, subtotal1, totalQuantity1, totalDiscou
                 onChange={handleChange}
               />
             </div>
-            <div className="mb-3 flex flex-col w-1/3 m-auto">
+            <div className="mb-3 flex flex-col w-1/2 m-auto mx-1">
               {/* <button
                 type="submit"
                 className="btn addcolor px-2 py-1 text-white rounded mt-2"
@@ -236,7 +218,7 @@ const CreateInvoice = ({ addToCart, cart, subtotal1, totalQuantity1, totalDiscou
               </button> */}
               <button
                 type="submit"
-                className="btn addcolor px-2 py-1 text-white rounded mt-2"
+                className="btn addcolor px-2 py-[2px]  text-white rounded mt-2"
                 onClick={() =>
                   addToCart(
                     product.P_sale,
@@ -257,7 +239,7 @@ const CreateInvoice = ({ addToCart, cart, subtotal1, totalQuantity1, totalDiscou
           </div>
         </div>
       </form>
-      <div className="flex border-2 overflow-x-scroll mt-4">
+      <div className="flex border-2 overflow-x-scroll mt-4  w-[100%]">
         <div className="table w-full p-2">
           <table className="w-full border">
             <thead>
@@ -328,13 +310,8 @@ const CreateInvoice = ({ addToCart, cart, subtotal1, totalQuantity1, totalDiscou
                   <td className="p-2 border-r">{cart[product].P_sale}</td>
                   <td className="p-2 border-r">{cart[product].p_exsale}</td>
                   <td>
-                    <a
-                      href="#"
-                      className="bg-blue-500 p-2 text-white hover:shadow-lg text-xs font-thin"
-                    >
-                      Edit
-                    </a>
-                        <button className="bg-red-500 p-2 text-white hover:shadow-lg text-xs font-thin" onClick={() => removeToCart(cart[product].p_Id)}>Remove</button>
+                    <button className="bg-blue-500 p-2 text-white hover:shadow-lg text-xs font-thin" onClick={() =>editCart(cart[product].p_Id)}>Edit</button>
+                    <button className="bg-red-500 p-2 text-white hover:shadow-lg text-xs font-thin" onClick={() => removeToCart(cart[product].p_Id)}>Remove</button>
                   </td>
                 </tr>
               ))}
