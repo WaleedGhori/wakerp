@@ -173,7 +173,7 @@ const CreateInvoice = ({ addToCart, cart, subtotal1, totalQuantity1, totalDiscou
                 Product ID
               </label>
               <input
-                type="number"
+                type="Number"
                 className="form-control border-2 border-slate-200 rounded mt-2"
                 id="productname"
                 value={p_Id}
@@ -188,7 +188,7 @@ const CreateInvoice = ({ addToCart, cart, subtotal1, totalQuantity1, totalDiscou
                 Product Qunatity
               </label>
               <input
-                type="number"
+                type="Number"
                 className="form-control border-2 border-slate-200 rounded mt-2"
                 id="productname"
                 value={pro_quantity}

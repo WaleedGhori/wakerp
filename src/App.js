@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, json } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard";
 import Sidebar from "./Components/Sidebar";
 import AddProduct from "./Pages/AddProduct";
@@ -9,18 +9,21 @@ import ProductState from "./context/product/ProductState";
 import { useState, useEffect } from "react";
 import ViewProduct from "./Pages/ViewProduct";
 import DeleteProduct from "./Pages/DeleteProduct";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
+// import Button from "react-bootstrap/Button";
+// import Form from "react-bootstrap/Form";
+// import Modal from "react-bootstrap/Modal";
+import Login from "./Pages/Login";
+import CreateUser from "./Pages/CreateUser";
 
-function App() {
+
+function App({login}) {
   const [cart, setCart] = useState({});
   const [subtotal1, setsubtotal1] = useState();
   const [totalQuantity1, setTotalQuantity1] = useState();
   const [totalDiscount1, setTotalDiscount1] = useState();
   const [totalExDiscount1, setTotalExDiscount1] = useState();
   const [showModal, setShowModal] = useState(false);
-  const [prodQty , setProdQty] = useState()
+  const [prodQty, setProdQty] = useState("")
 
   useEffect(() => {
     try {
@@ -32,7 +35,7 @@ function App() {
       console.error(error);
       localStorage.clear();
     }
-  }, []);
+  }, [ ]);
 
   // add cart function
   const addToCart = (
@@ -111,9 +114,22 @@ function App() {
   const editCart = (p_Id) => {
     setShowModal(true);
     let newCart = JSON.parse(JSON.stringify(cart));
-    let edit = newCart[p_Id];
-    console.log("I am a edit", edit);
+    setProdQty(newCart[p_Id].pro_quantity)
+    newCart[p_Id].pro_quantity=prodQty
+    setCart(newCart);
+    saveCart(newCart);
   };
+
+  const handleModelEdit = (e) => {
+    e.preventDefault();
+    editCart();
+  }
+
+  const [loggedIn, setLoggedIn] = useState(false)
+
+  const loginHandler = () =>{
+    setLoggedIn(true)
+  }
   return (
     <>
       {showModal ? (
@@ -136,39 +152,37 @@ function App() {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
-                  <form>
-                    <div className="container">
-                      <form className="">
-                        <div className="mb-3 flex flex-col">
-                          <label for="productqunatity" className="form-label">
-                            Product Quantity
-                          </label>
-                          <input
-                            type="Number"
-                            className="form-control border-2 border-slate-200 rounded mt-2"
-                            id="productquantity"
-                            
-                          />
-                        </div>
-                      </form>
+                  <form className="">
+                    <div className="mb-3 flex flex-col">
+                      <label for="productqunatity" className="form-label">
+                        Product Quantity
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control border-2 border-slate-200 rounded mt-2"
+                        id="productquantity"
+                        value={prodQty}
+                        name="prodQty"
+                        onChange={(e) => setProdQty(e.target.value)}
+                      />
                     </div>
+                    <button
+                      className="bg-[#101118] w-full text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="submit"
+                      onClick={handleModelEdit}
+                    >
+                      Save Changes
+                    </button>
                   </form>
                 </div>
                 {/*footer*/}
-                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                <div className="flex m-auto items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                   <button
-                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="text-red-500 background-transparent first-letter:font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => setShowModal(false)}
                   >
                     Close
-                  </button>
-                  <button
-                    className="bg-[#101118] text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Save Changes
                   </button>
                 </div>
               </div>
@@ -179,48 +193,61 @@ function App() {
       ) : null}
       <ProductState>
         <Router>
-          <Sidebar>
-            <Routes>
-              <Route exact path="/" element={<Dashboard />} />
-              <Route
-                exact
-                path="/product/addproduct"
-                element={<AddProduct />}
-              />
-              <Route
-                exact
-                path="/product/updateproduct"
-                element={<UpdateProduct />}
-              />
-              <Route
-                exact
-                path="/product/getproduct"
-                element={<ViewProduct />}
-              />
-              <Route
-                exact
-                path="/product/deleteproduct"
-                element={<DeleteProduct />}
-              />
-              <Route
-                exact
-                path="/createinvoice"
-                element={
-                  <CreateInvoice
-                    saveCart={saveCart}
-                    addToCart={addToCart}
-                    cart={cart}
-                    subtotal1={subtotal1}
-                    totalQuantity1={totalQuantity1}
-                    totalDiscount1={totalDiscount1}
-                    totalExDiscount1={totalExDiscount1}
-                    removeToCart={removeToCart}
-                    editCart={editCart}
-                  />
-                }
-              />
-            </Routes>
-          </Sidebar>
+          {loggedIn===false?
+           ( <Routes>
+              <Route exact path="/" element={<Login login={loginHandler} loggedIn={loggedIn}/>}/>   
+            </Routes>):(
+                      <Sidebar>
+                      <Routes>
+                        <Route exact path="/dashboard" element={<Dashboard />} />
+                        <Route
+                          exact
+                          path="/product/addproduct"
+                          element={<AddProduct />}
+                        />
+                        <Route
+                          exact
+                          path="/product/updateproduct"
+                          element={<UpdateProduct />}
+                        />
+                        <Route
+                          exact
+                          path="/product/getproduct"
+                          element={<ViewProduct />}
+                        />
+                        <Route
+                          exact
+                          path="/product/deleteproduct"
+                          element={<DeleteProduct />}
+                        />
+                        <Route
+                          exact
+                          path="/createuser"
+                          element={<CreateUser/>}
+                        />
+                        <Route
+                          exact
+                          path="/createinvoice"
+                          element={
+                            <CreateInvoice
+                              saveCart={saveCart}
+                              addToCart={addToCart}
+                              cart={cart}
+                              subtotal1={subtotal1}
+                              totalQuantity1={totalQuantity1}
+                              totalDiscount1={totalDiscount1}
+                              totalExDiscount1={totalExDiscount1}
+                              removeToCart={removeToCart}
+                              editCart={editCart}
+                            />
+                          }
+                        />
+                      </Routes>
+                   </Sidebar>
+            )
+          }
+
+            
         </Router>
       </ProductState>
     </>

@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 
-import { FaAngleDown, FaArrowDown, FaProductHunt } from "react-icons/fa";
+import {FaProductHunt } from "react-icons/fa";
 import { FaFileInvoice } from "react-icons/fa";
 import {AiOutlinePlusCircle} from "react-icons/ai"
 import {RxUpdate} from "react-icons/rx"
@@ -9,14 +9,13 @@ import {CiViewList} from "react-icons/ci"
 import {MdDelete} from  "react-icons/md"
 import { TbHeartRateMonitor } from "react-icons/tb";
 import { BiSearch } from "react-icons/bi";
-import { FaBars } from "react-icons/fa";
-import { GrDocumentUpdate } from "react-icons/gr"
+import { FaBars,FaUserAlt } from "react-icons/fa";
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react';
 import SidebarMenu from './SidebarMenu';
 const routes = [
     {
-        path: '/',
+        path: '/dashboard',
         name: "Dashboard",
         icon: <TbHeartRateMonitor />,
     },
@@ -51,6 +50,11 @@ const routes = [
                 icon: <MdDelete/>
             }
         ]
+    },
+    {
+        path: '/createuser',
+        name: "Create User",
+        icon: <FaUserAlt />,
     },
 
 ]
