@@ -15,7 +15,7 @@ import { useState } from 'react';
 import SidebarMenu from './SidebarMenu';
 const routes = [
     {
-        path: '/dashboard',
+        path: '/',
         name: "Dashboard",
         icon: <TbHeartRateMonitor />,
     },
@@ -130,7 +130,7 @@ const Sidebar = ({ children }) => {
                             return <SidebarMenu showAnimation={showAnimation} route={route} open={open} setOpen={setOpen} key={route.name} />
                         }
                         return (
-                            <NavLink activeClassName="active" to={route.path} key={route.name} className='link'>
+                            <NavLink activeclassname="active" to={route.path} key={route.name} className='link'>
                                 <div className="icon m-1">{route.icon}</div>
                                 <AnimatePresence>
                                     {open && <motion.div variants={showAnimation} initial="hidden" animate="show" exit="hidden" className="route_text">{route.name}</motion.div>}

@@ -15,7 +15,6 @@ import DeleteProduct from "./Pages/DeleteProduct";
 import Login from "./Pages/Login";
 import CreateUser from "./Pages/CreateUser";
 
-
 function App({login}) {
   const [cart, setCart] = useState({});
   const [subtotal1, setsubtotal1] = useState();
@@ -125,11 +124,16 @@ function App({login}) {
     editCart();
   }
 
-  const [loggedIn, setLoggedIn] = useState(false)
-
-  const loginHandler = () =>{
-    setLoggedIn(true)
-  }
+  // const [loggedIn, setLoggedIn] = useState(false)
+  // const loginHandler = () =>{
+  //   const auth = localStorage.getItem("authtoken");
+  //   if (auth) {
+  //     setLoggedIn(true)
+  //     console.log(loggedIn); 
+  //     console.log(auth); 
+  //   }
+  // }
+  
   return (
     <>
       {showModal ? (
@@ -193,13 +197,14 @@ function App({login}) {
       ) : null}
       <ProductState>
         <Router>
-          {loggedIn===false?
+          {!localStorage.getItem("authtoken")?
            ( <Routes>
-              <Route exact path="/" element={<Login login={loginHandler} loggedIn={loggedIn}/>}/>   
+              <Route exact path="/" element={<Login/>}/>   
+              {/* <Route exact path="/" element={<Login login={loginHandler} loggedIn={loggedIn}/>}/>    */}
             </Routes>):(
                       <Sidebar>
                       <Routes>
-                        <Route exact path="/dashboard" element={<Dashboard />} />
+                        <Route exact path="/" element={<Dashboard />} />
                         <Route
                           exact
                           path="/product/addproduct"

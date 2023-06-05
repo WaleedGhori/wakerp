@@ -22,6 +22,7 @@ const CreateInvoice = ({ addToCart, cart, subtotal1, totalQuantity1, totalDiscou
 
   // const [invoice, setInvoice] = useState({cus_name:localStorage.getItem("cusname"),p_Id:"",products:"", pro_quantity:"",finalpay:"",ammountpay:0,balanceammount:"", totalsale:"",totalexsale:"", returnammount:0});
   const handleInvocie = async () => {
+   
     // createCustomerInvocie({cus_name:cus_name, products:products,subtotal:subtotal, totalquant:totalquant ,finalpay:finalpay,ammountpay:ammountpay, balanceammount:balanceammount,totalsale:totalsale, totalexsale:totalexsale, returnammount:returnammount,  })
     let subtotal = subtotal1;
     let totalquant = totalQuantity1;
@@ -44,7 +45,8 @@ const CreateInvoice = ({ addToCart, cart, subtotal1, totalQuantity1, totalDiscou
     const cusInv = await response.json();
     setCreateInvoice(cusInv);
     alert("Invoice Created successfully")
-    localStorage.clear();
+    setProduct("")
+    setProductQuantity("")
     window.location.reload(true);
   }
 

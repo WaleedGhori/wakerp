@@ -41,7 +41,6 @@ const CreateUser = () => {
         })
 
         const response = await res.json()
-        localStorage.setItem("auth-token",JSON.stringify(response))
         seta_name("")
         setf_name("")
         setPassword("")

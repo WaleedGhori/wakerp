@@ -7,10 +7,10 @@ const Login = (props) => {
 
   // const [credentials, setCredentials] = useState({a_name:"",password:""})
   const handleChange = (e) =>{
-    if (e.target.name == 'a_name') {
+    if (e.target.name === 'a_name') {
       setUsername(e.target.value)
     }
-    if (e.target.name=='password') {
+    if (e.target.name==='password') {
       setPassword(e.target.value)
     }
     // setCredentials({...credentials,[e.target.name]:e.target.value})
@@ -28,9 +28,11 @@ const Login = (props) => {
     });
     const user = await response.json();
     console.log(user);
-    
+    if (user.success===true) {
+      localStorage.setItem("authtoken", JSON.stringify(user.authtoken));
+    }
     if (response.ok) {
-      props.login(a_name , password);
+      // props.login(a_name , password);
       // Store authentication token or session data in state
     } else {
       console.log("Login failed.");
