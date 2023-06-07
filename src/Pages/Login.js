@@ -1,7 +1,6 @@
 import React,{useState} from 'react'
 
-
-const Login = (props) => {
+const Login = () => {
   const [a_name, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
@@ -27,9 +26,10 @@ const Login = (props) => {
       body: JSON.stringify(data)
     });
     const user = await response.json();
-    console.log(user);
+    
     if (user.success===true) {
       localStorage.setItem("authtoken", JSON.stringify(user.authtoken));
+      window.location.reload(true);
     }
     if (response.ok) {
       // props.login(a_name , password);

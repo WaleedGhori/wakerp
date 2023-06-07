@@ -95,7 +95,7 @@ const handleDelProd = () =>{
                   <input type="text" className="border p-1" />
                 </td>
               </tr>
-                {!deleteprod?(<p>Wait...</p>):(<tr className="bg-gray-100 text-center border-b text-sm text-gray-600">
+                {!deleteprod?(<p className='p-4'>No item for delete...</p>):(<tr className="bg-gray-100 text-center border-b text-sm text-gray-600">
                   <td className="p-2 border-r">{deleteprod.p_Id}</td>
                   <td className="p-2 border-r">{deleteprod.p_name}</td>
                   <td className="p-2 border-r">{deleteprod.p_company}</td>

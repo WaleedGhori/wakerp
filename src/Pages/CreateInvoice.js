@@ -152,7 +152,7 @@ const CreateInvoice = ({ addToCart, cart, subtotal1, totalQuantity1, totalDiscou
   }
 
   return (
-    <div className="container">
+    <div className="max-w-5xl m-auto">
       <h2 className="text-4xl mt-2 mb-4">Create a Invoice</h2>
       <form>
         <div className="flex">

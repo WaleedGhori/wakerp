@@ -15,7 +15,7 @@ const ViewProduct = () => {
   }, [products])
 
   return (
-    <div className='container'>
+    <div className='max-w-5xl m-auto'>
       <h2 className='text-4xl mt-2 mb-4'>View Product</h2>
       <hr className='mb-6'></hr>
       <div className='flex border-2 overflow-x-scroll mt-4 overflow-y-scroll'>
